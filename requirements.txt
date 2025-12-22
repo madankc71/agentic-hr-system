@@ -1,0 +1,10 @@
+fastapi>=0.110
+uvicorn>=0.27
+
+langgraph>=0.0.40
+langchain-core>=0.1.40
+
+pydantic>=2.6
+
+pytest>=8.0
+httpx>=0.26
