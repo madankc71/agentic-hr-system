@@ -23,6 +23,30 @@ INTENT_RULES = {
     ],
 }
 
+PRIORITY_INTENT_RULES = [
+    ("eligibility_exceptions", [
+        "eligible", "eligibility", "exception", "contractor",
+        "intern", "part time"
+    ]),
+    ("employment_policy", [
+        "policy", "leave", "pto", "vacation", "remote",
+        "work from home", "attendance", "termination", "hours"
+    ]),
+    ("benefits_compensation", [
+        "benefit", "insurance", "bonus", "salary",
+        "401k", "medical", "reimbursement"
+    ]),
+    ("hr_procedures", [
+        "how do i", "apply", "submit", "request", "process",
+        "approve", "workflow"
+    ]),
+    ("employee_handbook", [
+        "conduct", "behavior", "culture", "values",
+        "code of conduct"
+    ]),
+]
+
+
 
 from openai import OpenAI
 client = OpenAI()
@@ -45,7 +69,7 @@ def classify_intent(state: HRState) -> HRState:
     query = state.user_query.lower()
 
     # --- Rule pass first ---
-    for intent, keywords in INTENT_RULES.items():
+    for intent, keywords in PRIORITY_INTENT_RULES:
         if any(k in query for k in keywords):
             state.intent = intent
             state.trace.append(f"Intent classified as: {state.intent} (rule)")
