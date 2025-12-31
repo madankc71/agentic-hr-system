@@ -1,0 +1,9 @@
+Company Leave Policy
+
+Employees are entitled to paid time off (PTO) based on their employment type.
+Full-time employees receive 20 days of paid leave per year.
+Part-time employees receive 10 days of paid leave per year.
+Contractors are not eligible for paid leave.
+
+Unused leave may be carried forward for up to one year.
+Leave requests must be approved by the reporting manager.

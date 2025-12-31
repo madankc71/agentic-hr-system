@@ -1,5 +1,5 @@
 from typing import Optional, List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class HRState(BaseModel):
@@ -15,10 +15,15 @@ class HRState(BaseModel):
     intent: Optional[str] = None
 
     # Retrieved evidence snippets (filled by RAG later)
-    evidence: List[str] = []
+    # evidence: List[str] = []
 
     # Final answer produced by an agent
     answer: Optional[str] = None
 
     # Debug / trace metadata
-    trace: List[str] = []
+    # trace: List[str] = []
+    
+    # sources: list[str] = Field(default_factory=list)
+
+    sources: list[str] = Field(default_factory=list)
+    trace: list[str] = Field(default_factory=list)

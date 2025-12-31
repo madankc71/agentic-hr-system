@@ -1,31 +1,68 @@
 from apps.agentic_hr.state.hr_state import HRState
 
+INTENT_RULES = {
+    "employment_policy": [
+        "policy", "leave", "pto", "vacation", "remote",
+        "work from home", "attendance", "termination", "hours"
+    ],
+    "benefits_compensation": [
+        "benefit", "insurance", "bonus", "salary",
+        "401k", "medical", "reimbursement"
+    ],
+    "hr_procedures": [
+        "how do i", "apply", "submit", "request", "process",
+        "approve", "workflow"
+    ],
+    "employee_handbook": [
+        "conduct", "behavior", "culture", "values",
+        "code of conduct"
+    ],
+    "eligibility_exceptions": [
+        "eligible", "eligibility", "exception", "contractor",
+        "intern", "part time"
+    ],
+}
+
+
+from openai import OpenAI
+client = OpenAI()
+
+CLASSIFIER_PROMPT = """
+Classify the user's HR question into one of these categories:
+
+- employment_policy
+- benefits_compensation
+- hr_procedures
+- employee_handbook
+- eligibility_exceptions
+- unknown
+
+Only output the label. Do not explain.
+Question: "{q}"
+"""
 
 def classify_intent(state: HRState) -> HRState:
-    """
-    Deterministic intent classifier.
-    Updates only the `intent` field of the state.
-    """
-
     query = state.user_query.lower()
 
-    if any(word in query for word in ["policy", "working hours", "remote", "leave policy"]):
-        state.intent = "employment_policy"
+    # --- Rule pass first ---
+    for intent, keywords in INTENT_RULES.items():
+        if any(k in query for k in keywords):
+            state.intent = intent
+            state.trace.append(f"Intent classified as: {state.intent} (rule)")
+            return state
 
-    elif any(word in query for word in ["benefit", "insurance", "bonus", "compensation"]):
-        state.intent = "benefits_compensation"
+    # --- LLM fallback ---
+    try:
+        response = client.responses.create(
+            model="gpt-4.1-mini",
+            input=CLASSIFIER_PROMPT.format(q=state.user_query)
+        )
 
-    elif any(word in query for word in ["how do i", "process", "apply", "request", "procedure"]):
-        state.intent = "hr_procedures"
+        state.intent = response.output_text.strip()
+        state.trace.append(f"Intent classified by LLM: {state.intent}")
 
-    elif any(word in query for word in ["conduct", "behavior", "values", "culture"]):
-        state.intent = "employee_handbook"
-
-    elif any(word in query for word in ["eligible", "eligibility", "exception", "contractor"]):
-        state.intent = "eligibility_exceptions"
-
-    else:
+    except Exception as e:
         state.intent = "unknown"
+        state.trace.append(f"LLM classification failed: {e}")
 
-    state.trace.append(f"Intent classified as: {state.intent}")
     return state

@@ -8,3 +8,7 @@ pydantic>=2.6
 
 pytest>=8.0
 httpx>=0.26
+
+sentence-transformers
+faiss-cpu
+openai

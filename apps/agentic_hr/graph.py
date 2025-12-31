@@ -3,7 +3,8 @@ from langgraph.graph import StateGraph, END
 from apps.agentic_hr.state.hr_state import HRState
 from apps.agentic_hr.nodes.intent_classifier import classify_intent
 from apps.agentic_hr.nodes.router import route_by_intent
-from apps.agentic_hr.nodes.employment_policy_agent import employment_policy_agent
+# from apps.agentic_hr.nodes.employment_policy_agent import employment_policy_agent
+from apps.agentic_hr.agents.employment_policy_agent import employment_policy_agent
 
 
 def build_hr_graph():
@@ -15,10 +16,13 @@ def build_hr_graph():
 
     # Add nodes
     graph.add_node("classifier", classify_intent)
+    # graph.add_node("router", route_by_intent)
     graph.add_node("employment_policy_agent", employment_policy_agent)
 
     # Entry point
     graph.set_entry_point("classifier")
+
+    # graph.add_edge("classifier", "router")
 
     # Conditional routing after classifier
     graph.add_conditional_edges(
