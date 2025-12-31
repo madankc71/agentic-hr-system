@@ -69,3 +69,14 @@ def search_benefits(query: str, top_k: int = 3):
         results.append(metadata[idx])
 
     return results
+
+def search_handbook(query: str, top_k: int = 3):
+    index = faiss.read_index("apps/agentic_hr/rag/indexes/handbook.index")
+
+    texts = np.load("apps/agentic_hr/rag/indexes/handbook_texts.npy", allow_pickle=True)
+
+    query_vector = model.encode([query]).astype("float32")
+
+    scores, indices = index.search(query_vector, top_k)
+
+    return [texts[i] for i in indices[0] if i != -1]
