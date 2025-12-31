@@ -41,8 +41,9 @@ def hr_procedures_agent(state: HRState) -> HRState:
             )
         )
 
-        state.answer = response.output_text
-        state.trace.append("Procedure agent answered using RAG")
+        state.answer = response.output_text.strip()
+        state.sources.append("procedure_index")
+        state.trace.append("Procedure agent answered using RAG and LLM")
 
     except Exception as e:
         state.answer = "Something went wrong retrieving procedures."

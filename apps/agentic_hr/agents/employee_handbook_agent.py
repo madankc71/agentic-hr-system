@@ -30,6 +30,7 @@ def employee_handbook_agent(state: HRState) -> HRState:
 
     if not results:
         state.answer = "I could not find anything related in the employee handbook."
+        state.trace.append("No handbook matches found")
         return state
 
     context = "\n\n".join(results)

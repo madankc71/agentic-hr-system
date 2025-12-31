@@ -7,38 +7,46 @@ client = OpenAI()
 PROMPT = """
 You are an HR assistant.
 
-Answer using ONLY the benefit policy context.
+Use ONLY the benefits policy excerpts below.
 
-If the answer is not clearly in the policy,
-respond:
-
+If the answer is unclear, say:
 "I'm not fully sure — please verify with HR."
 
-Question:
-{q}
-
-Policy context:
+Benefits excerpts:
+---
 {ctx}
+---
+
+Question: {q}
+
+Answer concisely.
 """
 
 def benefits_compensation_agent(state: HRState) -> HRState:
     query = state.user_query
-
-    results = search_benefits(query)
-
-    context = "\n\n".join(r["text"] for r in results)
-
-    state.trace.append("Benefits search executed")
+    state.trace.append("Benefits agent activated")
 
     try:
+        results = search_benefits(query)
+
+        if not results:
+            state.answer = "I couldn't find benefits information related to that."
+            state.trace.append("Benefits index returned no results")
+            return state
+
+        context = "\n\n".join(r["text"] for r in results)
+
         response = client.responses.create(
             model="gpt-4.1-mini",
             input=PROMPT.format(q=query, ctx=context)
         )
 
-        state.answer = response.output_text
+        state.answer = response.output_text.strip()
+        state.sources = ["benefits_index"]
+        state.trace.append("Benefits answered using RAG + LLM")
 
     except Exception as e:
-        state.answer = f"Benefits agent failed: {e}"
+        state.answer = "Benefits lookup failed — please try again later."
+        state.trace.append(f"Benefits agent error: {e}")
 
     return state

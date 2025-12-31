@@ -49,7 +49,8 @@ def employment_policy_agent(state: HRState) -> HRState:
 
         answer = response.output_text
 
-        state.answer = answer
+        state.answer = answer.strip()
+
         state.sources = [r["meta"]["filename"] for r in results]
         state.trace.append("Answer generated using RAG + LLM summarization")
 
