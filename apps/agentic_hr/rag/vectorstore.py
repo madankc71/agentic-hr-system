@@ -47,3 +47,25 @@ def search_policies(query: str, top_k: int = 3):
         )
 
     return results
+
+def search_benefits(query: str, top_k: int = 3):
+    index_file = BASE_PATH / "benefits.index"
+    meta_file = BASE_PATH / "benefits_meta.npy"
+
+    if not index_file.exists() or not meta_file.exists():
+        raise FileNotFoundError("Benefits index not built yet.")
+
+    index = faiss.read_index(str(index_file))
+    metadata = np.load(meta_file, allow_pickle=True)
+
+    query_vec = model.encode([query]).astype("float32")
+    scores, indices = index.search(query_vec, top_k)
+
+    results = []
+
+    for idx in indices[0]:
+        if idx == -1:
+            continue
+        results.append(metadata[idx])
+
+    return results
