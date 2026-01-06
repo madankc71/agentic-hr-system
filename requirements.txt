@@ -11,4 +11,4 @@ httpx>=0.26
 
 sentence-transformers
 faiss-cpu
-openai
+openai>=1.12.0

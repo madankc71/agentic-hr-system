@@ -3,9 +3,8 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-from loaders.handbook_loader import load_handbook_documents
-from chunking.chunker import simple_chunk
-
+from apps.agentic_hr.rag.loaders.handbook_loader import load_handbook_documents
+from apps.agentic_hr.rag.chunking.chunker import simple_chunk
 
 INDEX_DIR = Path(__file__).parent / "indexes"
 INDEX_DIR.mkdir(exist_ok=True)

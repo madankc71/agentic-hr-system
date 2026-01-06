@@ -4,19 +4,38 @@ from openai import OpenAI
 
 client = OpenAI()
 
-PROCEDURE_PROMPT = """
-You are an HR assistant. Use the policy excerpts below to answer the question clearly.
+# PROCEDURE_PROMPT = """
+# You are an HR assistant. Use the policy excerpts below to answer the question clearly.
 
-If something is not included in the excerpts, say:
-"I’m not fully sure — please contact HR."
+# If something is not included in the excerpts, say:
+# "I’m not fully sure — please contact HR."
+
+# Policy excerpts:
+# {context}
+
+# Question:
+# {question}
+
+# Answer in 4–6 sentences.
+# """
+PROCEDURE_PROMPT = """
+You are an HR assistant.
+
+Use ONLY the policy excerpts below.
+
+Rules:
+1. If the steps are NOT clearly described, say:
+   "I’m not fully sure — please contact HR."
+2. Do NOT guess.
+3. Keep the answer short and procedural (bullet style if needed).
 
 Policy excerpts:
+---
 {context}
+---
 
 Question:
 {question}
-
-Answer in 4–6 sentences.
 """
 
 

@@ -2,8 +2,8 @@ from pathlib import Path
 import faiss
 import numpy as np
 
-from loaders.policy_loader import load_policy_documents
-from chunking.chunker import simple_chunk
+from apps.agentic_hr.rag.loaders.policy_loader import load_policy_documents
+from apps.agentic_hr.rag.chunking.chunker import simple_chunk
 
 from sentence_transformers import SentenceTransformer
 

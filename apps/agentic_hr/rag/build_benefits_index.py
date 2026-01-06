@@ -2,11 +2,9 @@ from pathlib import Path
 import faiss
 import numpy as np
 
+from apps.agentic_hr.rag.loaders.benefits_loader import load_benefit_documents
+from apps.agentic_hr.rag.chunking.chunker import simple_chunk
 from sentence_transformers import SentenceTransformer
-
-from loaders.benefits_loader import load_benefit_documents
-from chunking.chunker import simple_chunk
-
 
 INDEX_DIR = Path(__file__).parent / "indexes"
 INDEX_DIR.mkdir(exist_ok=True)

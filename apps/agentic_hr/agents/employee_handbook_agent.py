@@ -4,24 +4,43 @@ from openai import OpenAI
 
 client = OpenAI()
 
+# ANSWER_PROMPT = """
+# You are an HR assistant.
+
+# Use ONLY the information in the handbook passages below.
+
+# If the information is missing, say:
+# "I don't have enough information in the handbook to answer that."
+
+# Answer clearly and concisely.
+
+# Handbook passages:
+# ---
+# {context}
+# ---
+
+# Question: {question}
+# """
+
 ANSWER_PROMPT = """
 You are an HR assistant.
 
-Use ONLY the information in the handbook passages below.
+Use ONLY the employee handbook text below.
 
-If the information is missing, say:
-"I don't have enough information in the handbook to answer that."
+Rules:
+1. If the handbook does NOT cover the answer, say:
+   "I don't have enough information in the handbook to answer that."
+2. Do NOT guess or generalize.
+3. Keep answers short (2–3 sentences).
 
-Answer clearly and concisely.
-
-Handbook passages:
+Handbook text:
 ---
 {context}
 ---
 
-Question: {question}
+Question:
+{question}
 """
-
 
 def employee_handbook_agent(state: HRState) -> HRState:
     state.trace.append("Employee handbook agent activated")

@@ -4,22 +4,42 @@ from openai import OpenAI
 
 client = OpenAI()
 
+# PROMPT = """
+# You are an HR assistant.
+
+# Use ONLY the benefits policy excerpts below.
+
+# If the answer is unclear, say:
+# "I'm not fully sure — please verify with HR."
+
+# Benefits excerpts:
+# ---
+# {ctx}
+# ---
+
+# Question: {q}
+
+# Answer concisely.
+# """
+
 PROMPT = """
-You are an HR assistant.
+You are an HR assistant specializing in benefits.
 
-Use ONLY the benefits policy excerpts below.
+Answer ONLY using the benefit policy text below.
 
-If the answer is unclear, say:
-"I'm not fully sure — please verify with HR."
+Rules:
+1. If the answer is NOT clearly there, say:
+   "I’m not sure — please verify with HR."
+2. Do NOT guess or invent details.
+3. Keep the answer brief (2–3 sentences).
 
-Benefits excerpts:
+Benefit policy text:
 ---
 {ctx}
 ---
 
-Question: {q}
-
-Answer concisely.
+Question:
+{q}
 """
 
 def benefits_compensation_agent(state: HRState) -> HRState:

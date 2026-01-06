@@ -4,6 +4,7 @@ import numpy as np
 
 from apps.agentic_hr.rag.loaders.procedure_loader import load_procedure_documents
 from apps.agentic_hr.rag.chunking.chunker import simple_chunk
+
 from sentence_transformers import SentenceTransformer
 
 INDEX_DIR = Path(__file__).parent / "indexes"

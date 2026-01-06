@@ -4,24 +4,44 @@ from openai import OpenAI
 
 client = OpenAI()
 
+# ELIGIBILITY_PROMPT = """
+# You are an HR assistant specializing in eligibility rules and exceptions
+# (e.g., contractors, interns, part-time employees, probation periods).
+
+# Use ONLY the context below to answer the user's question.
+# If the answer is unclear or not covered, say you are not sure
+# and recommend contacting HR for confirmation.
+
+# Context:
+# {context}
+
+# User question:
+# {question}
+
+# Answer in 2–4 concise sentences. If rules differ by employment type
+# (full-time vs contractor vs intern), clearly call that out.
+# """
+
 ELIGIBILITY_PROMPT = """
-You are an HR assistant specializing in eligibility rules and exceptions
-(e.g., contractors, interns, part-time employees, probation periods).
+You are an HR assistant specializing in eligibility rules.
 
-Use ONLY the context below to answer the user's question.
-If the answer is unclear or not covered, say you are not sure
-and recommend contacting HR for confirmation.
+Use ONLY the following eligibility policy context.
 
-Context:
+Rules:
+1. If eligibility is NOT clearly stated, say:
+   "I’m not sure — eligibility rules are not clear here."
+2. Do NOT guess.
+3. Call out differences between full-time / part-time / intern ONLY if written.
+4. Keep answers short (2–4 sentences max).
+
+Eligibility policy:
+---
 {context}
+---
 
-User question:
+Question:
 {question}
-
-Answer in 2–4 concise sentences. If rules differ by employment type
-(full-time vs contractor vs intern), clearly call that out.
 """
-
 
 def eligibility_exceptions_agent(state: HRState) -> HRState:
     query = state.user_query

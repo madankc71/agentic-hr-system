@@ -4,6 +4,7 @@ import numpy as np
 
 from apps.agentic_hr.rag.loaders.eligibility_loader import load_eligibility_documents
 from apps.agentic_hr.rag.chunking.chunker import simple_chunk
+
 from sentence_transformers import SentenceTransformer
 
 

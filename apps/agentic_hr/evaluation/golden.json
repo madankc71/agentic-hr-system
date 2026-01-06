@@ -1,0 +1,62 @@
+[
+  {
+    "q": "How many days of PTO do full-time employees get?",
+    "expected_intent": "employment_policy",
+    "must_contain": ["20", "twenty"]
+  },
+  {
+    "q": "Can I carry forward unused leave?",
+    "expected_intent": "employment_policy",
+    "must_contain": ["carry", "one"]
+  },
+  {
+    "q": "When do I become eligible for health insurance?",
+    "expected_intent": "benefits_compensation",
+    "must_contain": ["30", "thirty"]
+  },
+  {
+    "q": "Does the insurance cover dental?",
+    "expected_intent": "benefits_compensation",
+    "must_contain": ["cover", "yes"]
+  },
+  {
+    "q": "Are dependents covered under health insurance?",
+    "expected_intent": "benefits_compensation",
+    "must_contain": ["covered", "yes"]
+  },
+  {
+    "q": "Do contractors receive PTO?",
+    "expected_intent": "eligibility_exceptions",
+    "must_contain": ["not eligible", "no"]
+  },
+  {
+    "q": "Are part-time employees eligible for health insurance?",
+    "expected_intent": "eligibility_exceptions",
+    "must_contain": ["not eligible", "no"]
+  },
+  {
+    "q": "Are interns eligible for bonuses?",
+    "expected_intent": "eligibility_exceptions",
+    "must_contain": ["not eligible", "no"]
+  },
+  {
+    "q": "How do I submit a PTO request?",
+    "expected_intent": "hr_procedures",
+    "must_contain": ["3", "hr portal"]
+  },
+  {
+    "q": "How do I replace a broken laptop?",
+    "expected_intent": "hr_procedures",
+    "must_contain": ["ticket", "approval"]
+  },
+  {
+    "q": "What behavior is not acceptable at work?",
+    "expected_intent": "employee_handbook",
+    "must_contain": ["Inappropriate language", "bullying", "threatening"]
+  },
+  {
+    "q": "What should I do if I see misconduct?",
+    "expected_intent": "employee_handbook",
+    "must_contain": ["report"]
+  }
+]
